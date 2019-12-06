@@ -1,0 +1,21 @@
+--- PoC code ---
+
+To Build: raco exe src/parser-tester.rkt
+To Run: ./src/parser-tester
+To Use: enter text, then press ^D to parse.
+
+Plan:
+
+1. Tokenize
+    1.1. Split on whitespace.
+    1.2. Group similar words. (define/definition/meaning) (skip/next) (weather/forecast)
+    1.3. Identify keywords. (today/tomorrow) (nine AM/noon) (five/fifteen/twenty minutes)
+2. Parse into (Command "argument") or (Command (Argument "Value") (Argument "Value"))
+
+Unique grammar (and lexer?) for each type of action:
+    How to route initial message? Which parser/lexer to use per msg?
+
+Command w/ natural language arguments?
+    "tell clock to set an alarm for 8 am"
+    "tell music to skip this song"
+    "tell tracker I'm feeling happy"

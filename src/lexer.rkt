@@ -6,14 +6,12 @@
     (port-count-lines! ip)
     (define my-lexer
       (lexer-src-pos
-       [(repetition 1 +inf.0 numeric)
-        (token 'INTEGER (string->number lexeme))]
-       [(repetition 1 +inf.0 upper-case)
+       [(repetition 1 +inf.0 alphabetic)
         (token 'STRING lexeme)]
-       ["b"
-        (token 'STRING " ")]
-       [";"
-        (token ";" lexeme)]
+       [(repetition 1 +inf.0 numeric)
+        (token 'INTEGER lexeme)]
+       ["."
+        (token "." lexeme)]
        [whitespace
         (token 'WHITESPACE lexeme #:skip? #t)]
        [(eof)

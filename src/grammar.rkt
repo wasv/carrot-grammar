@@ -1,5 +1,4 @@
 #lang brag
-drawing: rows*
-rows: repeat? chunk+ ";"
-repeat: INTEGER
-chunk: INTEGER STRING
+msg: sent*
+sent: word+ "."?
+word: (STRING|INTEGER)

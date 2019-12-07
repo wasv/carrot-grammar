@@ -1,13 +1,6 @@
-# Ignore all
-*
-
-# Unignore all with extensions
-!*.*
-
-# Unignore all dirs
-!*/
-
-!LICENSE
-!README
-!Makefile
+*~
+\#*
+.\#*
+.DS_Store
 compiled/
+/doc/

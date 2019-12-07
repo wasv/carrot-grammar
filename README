@@ -1,9 +1,5 @@
 --- PoC code ---
 
-To Build: raco exe src/parser-tester.rkt
-To Run: ./src/parser-tester
-To Use: enter text, then press ^D to parse.
-
 Plan:
 
 1. Tokenize

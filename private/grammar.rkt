@@ -1,4 +1,4 @@
 #lang brag
 msg: sent*
-sent: word+ "."?
+sent: [word+] "."?
 word: (STRING|INTEGER)

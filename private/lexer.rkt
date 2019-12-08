@@ -20,6 +20,6 @@
     (define (next-token) (my-lexer ip))
     next-token)
 
-(define (tokenize str) (apply-tokenizer make-tokenizer str))
+(define (interpret str) (parse-to-datum (apply-tokenizer make-tokenizer str)))
 
-(provide tokenize)
+(provide interpret)

@@ -15,7 +15,6 @@
 
 ;; Code here
 
-(require "private/grammar.rkt")
 (require "private/lexer.rkt")
 
 (module+ test
@@ -26,22 +25,25 @@
   (check-equal? (+ 2 2) 4))
 
 (module+ main
-    (require brag/support)
     (require readline)
     (require buzzr)
     (define ADDRESS "tcp://localhost:1883")
     (define CLIENTID "ExampleClient")
     (define TOPIC "topic")
     (with-handlers ([exn:fail? (lambda (exn)
-                                    (println exn))])
-    (define client (buzzr:check (buzzr:client-create ADDRESS CLIENTID)))
-    (define conn_opts (buzzr:connect-options-create))
+                                    (println exn)
+                                   )])
+      (define client (buzzr:check (buzzr:client-create ADDRESS CLIENTID)))
+      (define conn_opts (buzzr:connect-options-create))
 
-    (buzzr:check (buzzr:client-connect client conn_opts))
-    (buzzr:check (buzzr:subscribe client TOPIC 0))
+      (buzzr:check (buzzr:client-connect client conn_opts))
+      (buzzr:check (buzzr:subscribe client TOPIC 0))
 
-    (let loop ()
-    (begin (define message (buzzr:check (buzzr:receive client -1)))
-    (println (parse-to-datum (tokenize (bytes->string/utf-8 (cadr message)))))
-    (loop)))
-    (buzzr:check (buzzr:client-disconnect client))))
+      (let loop ()
+        (begin
+          (define message (buzzr:check (buzzr:receive client -1)))
+          (println (interpret (bytes->string/utf-8 (cadr message)))))
+          (loop)
+         ))
+      (buzzr:check (buzzr:client-disconnect client))
+    ))

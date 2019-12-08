@@ -1,4 +1,5 @@
 #lang brag
 /msg: sent*
-sent: word* /EOS?
-word: (STRING|INTEGER)
+sent: word+ /eos?
+eos: EOS WHITESPACE? EOS?
+word: /WHITESPACE? (STRING|INTEGER) /WHITESPACE?

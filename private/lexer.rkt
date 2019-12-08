@@ -6,13 +6,14 @@
 (define my-lexer
   (lexer-src-pos
    [(eof) (void)]
-   [(union "\n" ".") (token 'EOS 'EOS)]
+   [(repetition 1 +inf.0 (union "\n" "."))
+    (token 'EOS 'EOS)]
    [(repetition 1 +inf.0 alphabetic)
     (token 'STRING lexeme)]
    [(repetition 1 +inf.0 numeric)
     (token 'INTEGER lexeme)]
-   [whitespace
-    (token 'WHITESPACE lexeme #:skip? #t)]))
+   [(repetition 1 +inf.0 whitespace)
+    (token 'WHITESPACE 'WHITESPACE)]))
 
 (define (make-tokenizer ip)
     (port-count-lines! ip)
@@ -22,3 +23,11 @@
 (define (interpret str) (parse-to-datum (apply-tokenizer make-tokenizer str)))
 
 (provide interpret)
+
+(module+ main
+    (require readline)
+    (let loop ()
+      (begin
+        (println (interpret (current-input-port)))
+        (loop)
+       )))

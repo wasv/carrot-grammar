@@ -1,17 +1,16 @@
 #lang racket
 (require brag/support)
 (require br-parser-tools/lex)
+(require "grammar.rkt")
 
 (define my-lexer
   (lexer-src-pos
-   ["\n" (void)]
    [(eof) (void)]
+   [(union "\n" ".") (token 'EOS 'EOS)]
    [(repetition 1 +inf.0 alphabetic)
     (token 'STRING lexeme)]
    [(repetition 1 +inf.0 numeric)
     (token 'INTEGER lexeme)]
-   ["."
-    (token "." lexeme)]
    [whitespace
     (token 'WHITESPACE lexeme #:skip? #t)]))
 

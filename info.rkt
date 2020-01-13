@@ -1,6 +1,6 @@
 #lang info
 (define collection "carrot")
-(define deps '("base" "https://github.com/wasv/buzzr" "brag-lib"))
+(define deps '("base" "https://github.com/wasv/buzzr.git" "brag-lib"))
 (define build-deps '("scribble-lib" "racket-doc" "rackunit-lib"))
 (define scribblings '(("scribblings/carrot.scrbl" ())))
 (define pkg-desc "Description Here")

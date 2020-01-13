@@ -44,6 +44,6 @@
           (define message (buzzr:check (buzzr:receive client -1)))
           (println (interpret (bytes->string/utf-8 (cadr message)))))
           (loop)
-         ))
+         )
       (buzzr:check (buzzr:client-disconnect client))
     ))

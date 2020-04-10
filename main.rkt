@@ -25,25 +25,31 @@
   (check-equal? (+ 2 2) 4))
 
 (module+ main
+    (require uuid)
     (require readline)
     (require buzzr)
     (define ADDRESS "tcp://localhost:1883")
-    (define CLIENTID "ExampleClient")
-    (define TOPIC "topic")
+    (define CLIENTID (uuid-string))
+    (define SUB_TOPIC "carrot.request")
+    (define PUB_TOPIC "carrot.reply")
     (with-handlers ([exn:fail? (lambda (exn)
                                     (println exn)
                                    )])
       (define client (buzzr:check (buzzr:client-create ADDRESS CLIENTID)))
-      (define conn_opts (buzzr:connect-options-create))
+      (define conn_opts (buzzr:connect-options-create #f #f))
 
       (buzzr:check (buzzr:client-connect client conn_opts))
-      (buzzr:check (buzzr:subscribe client TOPIC 0))
+      (buzzr:check (buzzr:subscribe client SUB_TOPIC 0))
 
       (let loop ()
         (begin
           (define message (buzzr:check (buzzr:receive client -1)))
-          (println (interpret (bytes->string/utf-8 (cadr message)))))
+          (define reply (interpret (bytes->string/utf-8 (cadr message))))
+          (println reply)
+          (buzzr:check (buzzr:publish client PUB_TOPIC
+                         (string->bytes/utf-8 (format "~a" reply))
+                          0 0))
           (loop)
          )
       (buzzr:check (buzzr:client-disconnect client))
-    ))
+    )))
